@@ -434,6 +434,23 @@ describe( "Module schema", function() {
 		} );
 	} );
 
+	it( "should not add any extra fields", function( done ) {
+		// this test was created due to a bug:
+		// the result of this schema test had two fields:
+		//  - 'field' and 'field[]'
+		var test = schema( {
+			'field': { type: 'array' },
+			'field[]': { type: 'number' }
+		} );
+
+		test( { 'field': [ 42 ] } ).then( function ( obj ) {
+			Object.keys(obj).length.should.eql(1);
+			obj.field[0].should.eql( 42 );
+
+			done();
+		} );
+	} );
+
 	it( "should complain about the type of array items", function( done ) {
 		var test = schema( {
 			'field': { type: 'array' },

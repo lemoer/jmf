@@ -26,12 +26,12 @@ module.exports.factory = function( P, chain, validators ) {
 					var promise = null;
 					if( head.slice( -2 ) === '[]' ) {
 						// remove '[]' at the end of head
-						var h = head.slice( 0, -2 );
+						head = head.slice( 0, -2 );
 
-						if( !( item[h] instanceof Array ) )
+						if( !( item[head] instanceof Array ) )
 							return P.resolve( item );
 
-						promise = P.map( item[h], walkDeeper );
+						promise = P.map( item[head], walkDeeper );
 					} else if( item ) {
 						promise = walkDeeper( item[head] );
 					} else {
